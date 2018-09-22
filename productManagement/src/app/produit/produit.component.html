@@ -18,10 +18,14 @@
            add products
          </div>
          <div class="card-body">
-           <form>
+           <form [formGroup]="formProduit">
              <div class="form-group">
               <label>nom:</label>
                <input type="text" formControlName="nom" class="form-control"/>
+             </div>
+             <div class="alert alert-danger" *ngIf="formProduit.controls['nom'].invalid &&
+             (formProduit.controls['nom'].touched || formProduit.controls['nom'].dirty)">
+                Nom obligatoire !
              </div>
              <div class="form-group">
               <label>prix unitaire:</label>
@@ -31,7 +35,7 @@
               <label>quantity:</label>
                <input type="number" formControlName="quantity" class="form-control"/>
              </div>
-             <button class="btn btn-primary">submit</button>
+             <button class="btn btn-primary" [disabled]="formProduit.prestine || formProduit.invalid">submit</button>
           </form>
         </div>
      </div>    

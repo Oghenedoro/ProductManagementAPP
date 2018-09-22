@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import  { ProduitService } from './produit.service';
 import  {  Produit  }  from '../shared/produit';
+import  { FormGroup,FormBuilder,Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-produit',
@@ -10,8 +11,18 @@ import  {  Produit  }  from '../shared/produit';
 export class ProduitComponent implements OnInit {
 
     public produits:Produit[];
+    formProduit : FormGroup;
 
-  constructor(private produitService:ProduitService) { }
+  constructor(private produitService:ProduitService, private fb:FormBuilder) {
+
+      this.formProduit = this.fb.group({
+      nom : ['', Validators.required],
+      prixUnitaire: '',
+      quantity: ''
+
+     });
+  }
+
 
   ngOnInit() {
      this.produits = this.produitService.getProduits();
