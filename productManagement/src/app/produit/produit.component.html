@@ -2,41 +2,58 @@
    <table class="table table-hover">
       <div class="col-lg-8">
         <tr>
-          <th>nom</th><th>priunitaire</th><th>qualite</th>
+           <th>Ref</th><th>nom</th><th>priunitaire</th><th>qualite</th><th><button (click)="operation='add';  " >Add</button></th>
         </tr>
-        <tr *ngFor="let p of produits">
-          <td>{{p.nom}}</td>
-          <td>{{p.prixUnitaire}}</td>
-          <td>{{p.quantity}}</td>
+        <tr *ngFor="let produit of produits">
+          <td>{{produit.ref}}</td>
+          <td>{{produit.nom}}</td>
+          <td>{{produit.prixUnitaire}}</td>
+          <td>{{produit.quantity}}</td>
+          <td><button class="btn btn-primary" (click)=" operation = 'edit'; selectedProduit=produit; ">Edit</button></td>
+          <td><button class="btn btn alert-danger" (click)="operation = 'remove'; selectedProduit=produit;">Delete</button></td>
         </tr>
       </div>
    </table>
 
    <div class="col-lg-6">
       <div class="card">
-         <div class="card-header bg-info text-white">
-           add products
-         </div>
-         <div class="card-body">
-           <form [formGroup]="formProduit">
-             <div class="form-group">
+        <div class="card-header bg-info text-white">
+          {{
+            operation == 'add' ? 'Ajouter Produit':
+            operation == 'edit' ? 'Edit Produit':
+            operation == 'delete'? 'Delete Produit': ''
+          }}
+        </div>
+        <div class="card-body">
+
+          <form [formGroup]="formProduit">
+            <div class="form-group">
+              <label>Ref:</label>
+              <input type="text" formControlName="ref" class="form-control" [(ngModel)]="selectedProduit.ref" />
+            </div>
+            <div class="alert alert-danger" *ngIf="formProduit.controls['ref'].invalid &&
+             (formProduit.controls['ref'].touched || formProduit.controls['ref'].dirty)">
+              Ref obligatoire !
+            </div>
+            <div class="form-group">
               <label>nom:</label>
-               <input type="text" formControlName="nom" class="form-control"/>
-             </div>
-             <div class="alert alert-danger" *ngIf="formProduit.controls['nom'].invalid &&
-             (formProduit.controls['nom'].touched || formProduit.controls['nom'].dirty)">
-                Nom obligatoire !
-             </div>
-             <div class="form-group">
+              <input type="text" formControlName="nom" class="form-control" [(ngModel)]="selectedProduit.nom" />
+            </div>
+            <div class="form-group">
               <label>prix unitaire:</label>
-               <input type="number" formControlName="prixUnitaire" class="form-control"/>
-             </div>
-             <div class="form-group">
+              <input type="number" formControlName="prixUnitaire" class="form-control" [(ngModel)]="selectedProduit.prixUnitaire" />
+            </div>
+            <div class="form-group">
               <label>quantity:</label>
-               <input type="number" formControlName="quantity" class="form-control"/>
-             </div>
-             <button class="btn btn-primary" [disabled]="formProduit.prestine || formProduit.invalid">submit</button>
+              <input type="number" formControlName="quantity" class="form-control" [(ngModel)]="selectedProduit.quantity" />
+            </div>
+            <button class="btn btn-primary" [disabled]="formProduit.prestine || formProduit.invalid"
+                    (click)="operation=='add' ? addProduit() : operation== 'edit' ? editProduit() : operation== 'remove' ? deleteProduit(): '' ">
+              {{operation == 'add' ? 'Ajouter': operation == 'edit' ? 'Modifier': operation == 'remove' ? 'Supprimer' : ''}}
+            </button>
           </form>
+
+           
         </div>
      </div>    
         

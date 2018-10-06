@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Produit } from '../shared/produit';
+import { HttpClient } from '@angular/common/Http';
+import { Observable } from 'rxjs';
+
 
 
 @Injectable({
@@ -7,37 +10,35 @@ import { Produit } from '../shared/produit';
 })
 export class ProduitService {
 
-    private produits : Produit[]=[];
+  private url = 'http://localhost:8080/prods';
 
-     constructor() { 
-      let p1 : Produit = new Produit();
-      let p2 : Produit = new Produit();
-      let p3 : Produit = new Produit();
-      let p4 : Produit = new Produit();
+  constructor(private http: HttpClient) { }
 
-      p1.nom = "book";
-      p1.prixUnitaire = 12;
-      p1.quantity = 29;
 
-      p2.nom = "phone";
-      p2.prixUnitaire = 15;
-      p2.quantity = 10;
+  getProduits(): Observable<any> {
+    return this.http.get(this.url)
+  }
 
-      p3.nom = "comp";
-      p3.prixUnitaire = 6;
-      p3.quantity = 20;
+  ajouterProduit(produit: Produit): Observable<any> {
 
-      p4.nom = "chair";
-      p4.prixUnitaire = 9;
-      p4.quantity = 23;
+    return this.http.post(`${this.url}`, produit);
+  }
 
-      this.produits.push(p1);
-      this.produits.push(p2);
-      this.produits.push(p3);
-      this.produits.push(p4);
-    }
-  
-  getProduits():Produit[]{
-      return this.produits;
-    }
+  modifieProduit(produit: Produit): Observable<any> {
+
+    return this.http.put(`${this.url}`, produit);
+  }
+
+  consulteProduit(ref: string): Observable<any> {
+
+    return this.http.get(this.url + `/${ref}`);
+  }
+
+  removeProduit(ref: string): Observable<any> {
+
+    return this.http.delete(`${this.url}/${ref}`);
+
+  }
+
+
 }
