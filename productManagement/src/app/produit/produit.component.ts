@@ -26,7 +26,7 @@ export class ProduitComponent implements OnInit {
   ngOnInit() {
     this.initProduit();
     this.loadProduits();
-    
+
   }
 
   loadProduits() {
@@ -39,21 +39,21 @@ export class ProduitComponent implements OnInit {
 
   addProduit() {
     const p = this.formProduit.value;
-      this.produitService.ajouterProduit(p).subscribe(
-        res => {
-          this.initProduit();
-          this.loadProduits()
-        }
-      );
-    } 
-  
+    this.produitService.ajouterProduit(p).subscribe(
+      res => {
+        this.initProduit();
+        this.loadProduits();
+      }
+    );
+  }
+
 
   editProduit() {
     this.produitService.modifieProduit(this.selectedProduit).subscribe(
       res => {
         this.initProduit();
         this.loadProduits();
-        
+
       }
     );
   }
@@ -75,11 +75,13 @@ export class ProduitComponent implements OnInit {
   }
 
   deleteProduit() {
-    this.produitService.removeProduit(this.selectedProduit.ref).subscribe(
-      res => {
-        this.selectedProduit = new Produit();
-        this.loadProduits();
-      }
-    );
+    if (window.confirm('Are sure you want to delete this item ?')) {
+      this.produitService.removeProduit(this.selectedProduit.ref).subscribe(
+        res => {
+          this.selectedProduit = new Produit();
+          this.loadProduits();
+        }
+      );
+    }
   }
 }
