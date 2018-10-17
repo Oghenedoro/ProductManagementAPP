@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ProduitService {
 
-  private url = 'http://localhost:8080/prods';
+  private url = 'http://localhost:8080/app/prods';
 
   constructor(private http: HttpClient) { }
 

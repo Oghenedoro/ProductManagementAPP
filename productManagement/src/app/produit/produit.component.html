@@ -56,7 +56,7 @@
           
           <div *ngIf="operation == 'remove' ">
             <p class="card-title">
-              Reference: {{selectedProduit.ref}}
+              Do you really want to delete this: {{selectedProduit.ref}} ?
             </p>
             <button class="alert-danger" (click)="deleteProduit()">confirmer</button>
           </div>
